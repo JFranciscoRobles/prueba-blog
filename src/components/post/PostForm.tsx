@@ -16,9 +16,12 @@ import { Input } from "@/components/ui/input";
 
 import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
-import { userService } from "@/lib/server/services/userService";
+
 import { Post } from "@prisma/client";
-import { Session } from "next-auth";
+
+import { Textarea } from "../ui/textarea";
+import { postService } from "@/lib/client/services/postService";
+import { useSession } from "next-auth/react";
 
 const formSchema = z.object({
   title: z.string({
@@ -27,7 +30,6 @@ const formSchema = z.object({
   content: z.string({
     required_error: "Description Required",
   }),
-
   userId: z.string(),
 });
 
@@ -35,46 +37,43 @@ type PostFormValues = z.infer<typeof formSchema>;
 
 interface PostFormProps {
   initialData: (PostFormValues & Post) | null;
-  session: Session;
 }
 
-const PostForm: React.FC<PostFormProps> = ({ initialData, session }) => {
+const PostForm: React.FC<PostFormProps> = ({ initialData }) => {
+  const { data: session } = useSession();
+  console.log(session?.user.id);
   const router = useRouter();
   const { toast } = useToast();
 
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Edit Post" : "New Post";
-  const description = initialData
-    ? "Edit the post data."
-    : "Form to create a new post";
   const toastMessage = initialData ? "Updated Post" : "Post Created.";
   const action = initialData ? "Save Changes" : "New Post";
 
   const form = useForm<PostFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
-      title: "",
+      userId: session?.user.id,
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
-      await userService.newUser(values);
+      const newPost = await postService.newPost(values);
 
       toast({
         variant: "default",
-        title: "Éxito",
+        title: "Success",
         description: toastMessage,
       });
 
-      router.push(`/`);
+      router.push(`/posts/${newPost.data.id}`);
     } catch (error: any) {
       console.log(error);
       toast({
         variant: "destructive",
-        title: "Incorrecto",
+        title: "Error",
         description: error.response.data,
       });
     } finally {
@@ -92,7 +91,7 @@ const PostForm: React.FC<PostFormProps> = ({ initialData, session }) => {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input disabled={loading} placeholder="Title" {...field} />
+                <Input disabled={loading} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,7 +104,7 @@ const PostForm: React.FC<PostFormProps> = ({ initialData, session }) => {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input disabled={loading} placeholder="Email" {...field} />
+                <Textarea disabled={loading} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

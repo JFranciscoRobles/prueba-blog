@@ -38,8 +38,8 @@ const RegisterForm: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const toastMessage = "Usuario Creado.";
-  const action = "Crear Usuario";
+  const toastMessage = "User Created.";
+  const action = "New User";
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(formSchema),
@@ -52,7 +52,7 @@ const RegisterForm: React.FC = () => {
 
       toast({
         variant: "default",
-        title: "Éxito",
+        title: "Success",
         description: toastMessage,
       });
 
@@ -61,7 +61,7 @@ const RegisterForm: React.FC = () => {
       console.log(error);
       toast({
         variant: "destructive",
-        title: "Incorrecto",
+        title: "Error",
         description: error.response.data,
       });
     } finally {

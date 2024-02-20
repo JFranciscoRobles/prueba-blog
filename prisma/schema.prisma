@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -17,12 +18,13 @@ model User {
 }
 
 model Post {
-  title       String    @id @default(cuid())
-  author      User      @relation(fields: [userId], references: [id])
-  content     String
-  Published   Boolean   @default(true)
-  publishedAt DateTime?
-  createdAt   DateTime  @default(now())
+  id          String   @id @default(cuid())
+  title       String
+  author      User     @relation(fields: [userId], references: [id])
+  content     String   @db.LongText
+  Published   Boolean  @default(true)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
   userId      String
 
   @@index([userId])

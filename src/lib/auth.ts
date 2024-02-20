@@ -42,5 +42,14 @@ export const {
       },
     }),
   ],
- 
+ callbacks: {
+  async session({ session, user, token }) {
+    session.user.id = token.sub || ""
+  
+    return session
+  },
+  async jwt({ token, user }) {
+    return token
+  }
+ }
 });

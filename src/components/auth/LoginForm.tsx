@@ -53,7 +53,7 @@ export default function LoginForm() {
     if (login?.error) {
       toast({
         variant: "destructive",
-        title: "Incorrecto",
+        title: "Error",
         description: "error",
       });
     }
@@ -96,7 +96,7 @@ export default function LoginForm() {
           )}
         />
         <Button className="w-full" disabled={loading} type="submit">
-          Submit
+          Login
         </Button>
       </form>
     </Form>

@@ -25,26 +25,25 @@ function UserMenu({}: Props) {
   ) : (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="ml-auto" variant="outline">
-          Menu
-        </Button>
+        <Button className="ml-auto">Menu</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            New Post
-            <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            My Posts
-            <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Bookmarks
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <Link href={"/dashboard/posts/new"}>
+            <DropdownMenuItem>
+              New Post
+              <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
+          <Link href={"/dashboard/posts"}>
+            <DropdownMenuItem>
+              My Posts
+              <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
+
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut()}>
             Log out
