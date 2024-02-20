@@ -1,67 +1,22 @@
-"use client";
-
-import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import LoginForm from "@/components/auth/LoginForm";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
+import React from "react";
 
-export default function LoginForm() {
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const { toast } = useToast();
+type Props = {};
 
+function Page({}: Props) {
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setLoading(true);
-        signIn("credentials", {
-          redirect: false,
-          email: e.currentTarget.email.value,
-          password: e.currentTarget.password.value,
-          // @ts-ignore
-        }).then(({ error }) => {
-          if (error) {
-            setLoading(false);
-            toast({
-              variant: "destructive",
-              title: "Incorrecto",
-              description: "El usuario o contraeña son incorrectos.",
-            });
-          } else {
-            router.refresh();
-            router.push("/dashboard");
-          }
-        });
-      }}
-      className="flex flex-col w-full px-4 py-8 space-y-4 sm:px-16"
-    >
-      <div>
-        <Label htmlFor="email">Correo Electronico</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          required
-          placeholder="saas@probien.mx"
-        />
-      </div>
-      <div>
-        <Label htmlFor="password">Contraseña</Label>
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          required
-          placeholder="*******"
-        />
-      </div>
-      <Button disabled={loading}>
-        {loading ? "Cargando" : "Iniciar Sesión"}
-      </Button>
-    </form>
+    <div className="flex flex-col my-8  space-y-8">
+      <h1 className="text-2xl font-bold text-center">Login</h1>
+      <LoginForm />
+      <Link href={"/login/register"}>
+        <Button variant={"link"} className="p-0">
+          Register here, start writing for the blog.
+        </Button>
+      </Link>
+    </div>
   );
 }
+
+export default Page;

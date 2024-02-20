@@ -10,7 +10,20 @@ datasource db {
 
 model User {
   id       String  @id @default(cuid())
-  name     String?
+  name     String
   email    String? @unique
   password String?
+  Post     Post[]
+}
+
+model Post {
+  title       String    @id @default(cuid())
+  author      User      @relation(fields: [userId], references: [id])
+  content     String
+  Published   Boolean   @default(true)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  userId      String
+
+  @@index([userId])
 }

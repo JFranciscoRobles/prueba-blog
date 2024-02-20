@@ -1,6 +1,6 @@
 
-import { db } from "@/lib/db";
-import api from "@/lib/fetchClient";
+import api from "@/lib/client/fetchClient";
+import { db } from "@/lib/server/db";
 
 export const userService = {
   authenticate,
@@ -24,6 +24,7 @@ try {
 }
 
 export async function newUser(data: any) {
+  console.log(data)
   await api("/api/users", {
     method: "POST",
     data,
