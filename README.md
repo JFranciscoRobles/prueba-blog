@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Blog Project Overview
+=====================
 
-## Getting Started
+https://prueba-blog.vercel.app/
 
-First, run the development server:
+This project serves as a technical test for a blog application and incorporates the following technologies:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-   Prisma ORM: A modern database toolkit for TypeScript and Node.js.
+-   PlanetScale (MySQL Database): Provides a scalable and reliable MySQL database.
+-   Next.js: A React framework for building web applications.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Project Setup
+-------------
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Before initiating the project, you need to set up four environment variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+`DATABASE_URL='DB URL STRING'`
 
-## Learn More
+``NEXTAUTH_SECRET="HASH"``
 
-To learn more about Next.js, take a look at the following resources:
+`NEXTAUTH_JWT_SECRET="HASH"`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`NEXT_PUBLIC_URL="API URL (Usually where the Frontend is hosted)"`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To initialize the project, follow these steps:
 
-## Deploy on Vercel
+1.  Add the `DATABASE_URL` variable.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  Run the following Prisma commands:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+   `npx prisma generate   # To create models`
+
+   `npx prisma db push    # To create models in the database`
+
+Features
+--------
+
+-   User Authentication: Each user is an author with the ability to create posts.
+-   Dashboard Panel: Authors can create and manage posts through an dashboard panel.
+-   Public Access: Posts are visible without the need for user authentication.
+-   Server-side Pagination: The system incorporates server-side pagination for improved performance.
+-   Text-based Search: Users can perform text-based searches on the server.
+-   Post Management: Authors can publish, unpublish, and modify posts.
+-   Validation: Both frontend and backend include validations.
+-   Single User Restrictions:
+    -   Only users can create posts.
+    -   Only users can modify their own posts.
+    -   Only users can unpublish their own posts.
+
+Implementation Details
+----------------------
+
+Despite utilizing Prisma ORM, a decision has been made to decouple the frontend from the ORM. The frontend makes Fetch calls to the API routes, and the API, in turn, connects to the ORM. This architectural choice provides flexibility and separation of concerns.
+
+Feel free to explore and enhance this blog project for further development!
