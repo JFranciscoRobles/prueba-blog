@@ -3,6 +3,12 @@ Blog Project Overview
 
 https://prueba-blog.vercel.app/
 
+You can use the following credentials:
+Email: admin@admin.com
+Password: admin
+
+Alternatively, you can create a new user.
+
 This project serves as a technical test for a blog application and incorporates the following technologies:
 
 -   Prisma ORM: A modern database toolkit for TypeScript and Node.js.
