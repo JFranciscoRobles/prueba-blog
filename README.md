@@ -59,4 +59,13 @@ Implementation Details
 
 Despite utilizing Prisma ORM, a decision has been made to decouple the frontend from the ORM. The frontend makes Fetch calls to the API routes, and the API, in turn, connects to the ORM. This architectural choice provides flexibility and separation of concerns.
 
-Feel free to explore and enhance this blog project for further development!
+Feel free to explore and enhance this blog project.
+
+
+This application could have more improvements, such as:
+-------------------------------------------------------
+
+-  Enhancements in SEO.
+-  Conversion into a Progressive Web App (PWA) for offline bookmarks.
+-  Improvement in the results of validations.
+-  Enhanced intuitiveness.
