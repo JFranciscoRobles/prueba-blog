@@ -28,7 +28,7 @@ const PostPagination = ({ data }: Props) => {
   };
 
   return (
-    <div className="flex w-full gap-4 justify-end items-center">
+    <div className="flex w-full gap-4 justify-end items-center flex-wrap">
       <span>Page: </span>
       <Link passHref href={generatePageLink(1)}>
         <Button variant={"outline"} disabled={currentPage === startPage}>

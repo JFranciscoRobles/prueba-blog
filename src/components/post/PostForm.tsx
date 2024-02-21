@@ -41,7 +41,6 @@ interface PostFormProps {
 
 const PostForm: React.FC<PostFormProps> = ({ initialData }) => {
   const { data: session } = useSession();
-  console.log(session?.user.id);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -60,7 +59,15 @@ const PostForm: React.FC<PostFormProps> = ({ initialData }) => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
-      const newPost = await postService.newPost(values);
+      let s_postId;
+      if (!initialData) {
+        const newPost = await postService.newPost(values);
+        s_postId = newPost.data.id;
+      } else {
+        await postService.updatePost(values, initialData.id);
+
+        s_postId = initialData.id;
+      }
 
       toast({
         variant: "default",
@@ -68,7 +75,7 @@ const PostForm: React.FC<PostFormProps> = ({ initialData }) => {
         description: toastMessage,
       });
 
-      router.push(`/posts/${newPost.data.id}`);
+      router.push(`/posts/${s_postId}`);
     } catch (error: any) {
       console.log(error);
       toast({

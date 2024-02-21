@@ -29,7 +29,7 @@ const Page = async () => {
         <h1 className="text-2xl font-bold text-center">{title}</h1>
         <h2 className="text-xl font-semibold text-center">{description}</h2>
       </div>
-      <PostsContainer data={posts} />
+      <PostsContainer data={posts} edit />
     </div>
   );
 };

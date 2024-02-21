@@ -4,6 +4,7 @@ import { Post } from "@prisma/client";
 import { User } from "next-auth";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import PostStateButtonForm from "../post/PostStateButtonForm";
 
 type Props = {
   data: Post & {
@@ -29,18 +30,23 @@ function PostCard({ data, edit = false }: Props) {
           <Link href={`/posts/${data.id}`}>
             <Button size={"sm"}>View post</Button>
           </Link>
-
-          {edit && <Button size={"sm"}>{edit ? "Published" : "Draft"}</Button>}
-          {edit && <Button size={"sm"}>{"Edit"}</Button>}
         </div>
       </div>
-      <p className="text-sm max-ch">{descripcionReducida}</p>
-
+      <div className="relative w-full flex overflow-hidden">
+        <p className="text-sm ">{descripcionReducida}</p>
+      </div>
       <span className="text-xs">
         <span className="font-semibold">@{data.author.name}</span> -{" "}
         {fechaFormateada}
       </span>
-
+      <div className="flex gap-4 ml-auto">
+        {edit && (
+          <Link href={`/dashboard/posts/${data.id}`}>
+            <Button size={"sm"}>{"Edit"}</Button>
+          </Link>
+        )}
+        {edit && <PostStateButtonForm initialData={data} />}
+      </div>
       <Separator decorative />
     </article>
   );

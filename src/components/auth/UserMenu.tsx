@@ -20,12 +20,16 @@ function UserMenu({}: Props) {
   const { data: session } = useSession();
   return !session ? (
     <Link href={"/login"} className="ml-auto">
-      <Button variant={"link"}>Iniciar Sesión</Button>
+      <Button size={"sm"} variant={"link"}>
+        Iniciar Sesión
+      </Button>
     </Link>
   ) : (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="ml-auto">Menu</Button>
+        <Button className="ml-auto" size={"sm"}>
+          Menu
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>

@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/lib/auth";
 import { Toaster } from "@/components/ui/toaster";
+import Footer from "@/components/landing/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default async function RootLayout({
             <div className="flex flex-col w-full max-w-4xl my-8">
               <Navbar />
               {children}
+              <Footer />
             </div>
           </div>
         </SessionProvider>

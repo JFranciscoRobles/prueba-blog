@@ -13,13 +13,14 @@ type Props = {
   data: Post[] & {
     author: User;
   };
+  edit?: boolean;
 };
 
-function PostsContainer({ data }: Props) {
+function PostsContainer({ data, edit = false }: Props) {
   return (
     <div className={`${NotoSans.className} my-8 flex flex-col p-2 space-y-8`}>
       {data.map((post) => (
-        <PostCard key={post.id} data={post} />
+        <PostCard key={post.id} data={post} edit={edit} />
       ))}
     </div>
   );

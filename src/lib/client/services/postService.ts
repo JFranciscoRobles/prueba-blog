@@ -2,7 +2,8 @@ import api from "@/lib/client/fetchClient";
 
 export const postService = {
   newPost,
-  getPosts
+  getPosts,
+  updatePost
 };
 
 export async function newPost(data: any) {
@@ -21,3 +22,11 @@ export async function getPosts(searchParams?: any) {
   return result
 }
 
+
+export async function updatePost(data: any, postId: string) {
+  const result = await api(`/api/posts/${postId}`, {
+     method: "PATCH",
+     data
+   })
+   return result
+ }

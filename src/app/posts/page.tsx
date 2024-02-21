@@ -12,7 +12,6 @@ type Props = {
 
 async function Page({ searchParams }: Props) {
   const { data } = await getData(searchParams);
-
   return (
     <div className="flex flex-col my-8">
       <h1 className="text-2xl font-bold text-center my-8">View all Posts</h1>
