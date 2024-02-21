@@ -21,7 +21,7 @@ function UserMenu({}: Props) {
   return !session ? (
     <Link href={"/login"} className="ml-auto">
       <Button size={"sm"} variant={"link"}>
-        Iniciar Sesión
+        Login
       </Button>
     </Link>
   ) : (

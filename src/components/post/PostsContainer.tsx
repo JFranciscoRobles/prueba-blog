@@ -1,8 +1,7 @@
 import React from "react";
 import PostCard from "./PostCard";
 import { Noto_Sans } from "next/font/google";
-import { Post } from "@prisma/client";
-import { User } from "next-auth";
+import { PostWithAuthor } from "../../../types/Post";
 
 const NotoSans = Noto_Sans({
   subsets: ["latin"],
@@ -10,9 +9,7 @@ const NotoSans = Noto_Sans({
 });
 
 type Props = {
-  data: Post[] & {
-    author: User;
-  };
+  data: PostWithAuthor[];
   edit?: boolean;
 };
 

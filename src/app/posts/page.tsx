@@ -1,4 +1,4 @@
-import PostsContainer from "@/components/landing/PostsContainer";
+import PostsContainer from "@/components/post/PostsContainer";
 import PostPagination from "@/components/post/PostPagination";
 import PostSearch from "@/components/post/PostSearch";
 import { postService } from "@/lib/client/services/postService";

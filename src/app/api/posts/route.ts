@@ -27,6 +27,8 @@ export async function GET(req: Request) {
   const extendDb = db.$extends(findManyAndCount);
   const { searchParams } = new URL(req.url);
 
+  const userId = searchParams.get("userId") || undefined;
+  const Published = Boolean(searchParams.get("Published")) || undefined;
   const offset = Number(searchParams.get("page")) || undefined;
   const limit = Number(searchParams.get("limit")) || undefined;
   const search = searchParams.get("search") || undefined;
@@ -42,7 +44,8 @@ export async function GET(req: Request) {
         },
       },
       where: {
-        Published: true,
+        Published,
+        userId: userId,
         OR: [
           {
             title: {
@@ -61,6 +64,7 @@ export async function GET(req: Request) {
               },
             },
           },
+        
         ],
       },
       

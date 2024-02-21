@@ -1,30 +1,17 @@
-import PostForm from "@/components/post/PostForm";
-import { db } from "@/lib/server/db";
+import { postService } from "@/lib/client/services/postService";
 import React from "react";
-
-type Props = {};
+import { PostWithAuthor } from "../../../../types/Post";
+import { formatDate } from "@/lib/client/utils";
+import { notFound } from "next/navigation";
 
 const Page = async ({ params }: { params: { postId: string } }) => {
-  const post = await db.post.findFirst({
-    where: {
-      id: params.postId,
-    },
-    include: {
-      author: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
+  const post: PostWithAuthor = await getData(params.postId);
 
   if (!post) {
-    return 404;
+    return notFound();
   }
 
-  const fechaOriginal = new Date(post.publishedAt);
-  const fechaFormateada = fechaOriginal.toLocaleDateString("es-ES");
+  const newDate = formatDate(post.publishedAt);
 
   return (
     <div className="flex flex-col my-8  space-y-8">
@@ -33,11 +20,16 @@ const Page = async ({ params }: { params: { postId: string } }) => {
         <p className="whitespace-break-spaces">{post?.content}</p>
       </div>
       <div>
-        <span className="font-bold">@{post?.author.name}</span> -{" "}
-        {fechaFormateada}
+        <span className="font-bold">@{post?.author.name}</span> - {newDate}
       </div>
     </div>
   );
 };
 
 export default Page;
+
+async function getData(postId: string): Promise<PostWithAuthor> {
+  const data = await postService.getPostById(postId);
+  const { data: post } = data;
+  return post;
+}

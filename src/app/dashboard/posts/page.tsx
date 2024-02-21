@@ -1,28 +1,15 @@
-import PostsContainer from "@/components/landing/PostsContainer";
+import PostsContainer from "@/components/post/PostsContainer";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/server/db";
 import React from "react";
-
-type Props = {};
+import { PostWithAuthor } from "../../../../types/Post";
+import { postService } from "@/lib/client/services/postService";
 
 const Page = async () => {
   const session = await auth();
-  const posts = await db.post.findMany({
-    where: {
-      userId: session?.user.id,
-    },
-    include: {
-      author: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
+  const posts: PostWithAuthor[] = await getData(session?.user.id || "");
 
   const title = "My Posts";
-  const description = "Explore a curated collection of posts";
+  const description = "Explore your collection of posts";
   return (
     <div className="flex flex-col my-8  space-y-8">
       <div className="flex flex-col">
@@ -35,3 +22,9 @@ const Page = async () => {
 };
 
 export default Page;
+
+async function getData(userId: string): Promise<PostWithAuthor[]> {
+  const data = await postService.getPostByUser(userId);
+  const { data: posts } = data;
+  return posts.data;
+}

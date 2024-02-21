@@ -1,4 +1,4 @@
-import PostsContainer from "@/components/landing/PostsContainer";
+import PostsContainer from "@/components/post/PostsContainer";
 import { Button } from "@/components/ui/button";
 import { postService } from "@/lib/client/services/postService";
 import Link from "next/link";

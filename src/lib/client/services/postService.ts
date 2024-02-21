@@ -1,9 +1,12 @@
 import api from "@/lib/client/fetchClient";
+import { Session } from "next-auth";
 
 export const postService = {
   newPost,
   getPosts,
-  updatePost
+  updatePost,
+  getPostById,
+  getPostByUser
 };
 
 export async function newPost(data: any) {
@@ -14,19 +17,40 @@ export async function newPost(data: any) {
   return result
 }
 
+export async function getPostById(postId:string) {
+  const result = await api(`/api/posts/${postId}`, {
+    method: "GET",
+  })
+  return result
+}
+
+export async function getPostByUser(userId:string) {
+  const result = await api(`/api/posts/`, {
+    method: "GET",
+    params: {
+      userId,
+      Published: undefined,
+    }
+  })
+  return result
+}
+
 export async function getPosts(searchParams?: any) {
  const result = await api("/api/posts", {
     method: "GET",
-    params: searchParams
+    params: {...searchParams, Published: true}
   })
   return result
 }
 
 
-export async function updatePost(data: any, postId: string) {
+export async function updatePost(data: any, postId: string, session: Session) {
   const result = await api(`/api/posts/${postId}`, {
      method: "PATCH",
-     data
+     data,
+     headers: {
+      Authorization: session.user.id,
+     }
    })
    return result
  }

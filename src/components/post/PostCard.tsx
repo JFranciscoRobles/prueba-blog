@@ -4,18 +4,17 @@ import { Post } from "@prisma/client";
 import { User } from "next-auth";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import PostStateButtonForm from "../post/PostStateButtonForm";
+import PostStateButtonForm from "./PostStateButtonForm";
+import { formatDate } from "@/lib/client/utils";
+import { PostWithAuthor } from "../../../types/Post";
 
 type Props = {
-  data: Post & {
-    author: User;
-  };
+  data: PostWithAuthor;
   edit?: boolean;
 };
 
 function PostCard({ data, edit = false }: Props) {
-  const fechaOriginal = new Date(data.publishedAt);
-  const fechaFormateada = fechaOriginal.toLocaleDateString("es-ES");
+  const newDate = formatDate(data.publishedAt);
   const descripcionReducida =
     data.content.length > 70
       ? `${data.content.substring(0, 70)}...`
@@ -36,8 +35,7 @@ function PostCard({ data, edit = false }: Props) {
         <p className="text-sm ">{descripcionReducida}</p>
       </div>
       <span className="text-xs">
-        <span className="font-semibold">@{data.author.name}</span> -{" "}
-        {fechaFormateada}
+        <span className="font-semibold">@{data.author.name}</span> - {newDate}
       </span>
       <div className="flex gap-4 ml-auto">
         {edit && (

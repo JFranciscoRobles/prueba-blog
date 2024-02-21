@@ -24,7 +24,7 @@ interface PostFormProps {
 
 const PostStateButtonForm: React.FC<PostFormProps> = ({ initialData }) => {
   const { data: session } = useSession();
-  console.log(session?.user.id);
+
   const router = useRouter();
   const { toast } = useToast();
 
@@ -43,7 +43,14 @@ const PostStateButtonForm: React.FC<PostFormProps> = ({ initialData }) => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
-      const updatePost = await postService.updatePost(values, initialData.id);
+      if (!session) {
+        return 404;
+      }
+      const updatePost = await postService.updatePost(
+        values,
+        initialData.id,
+        session
+      );
       console.log(updatePost);
       toast({
         variant: "default",

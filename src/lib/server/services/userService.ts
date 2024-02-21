@@ -7,7 +7,7 @@ export const userService = {
   newUser,
 };
 
-async function authenticate(email: string, password: string) {
+async function authenticate(email: string) {
 
 try {
   const user = await db.user.findFirst({

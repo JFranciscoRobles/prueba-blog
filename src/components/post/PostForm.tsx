@@ -64,7 +64,10 @@ const PostForm: React.FC<PostFormProps> = ({ initialData }) => {
         const newPost = await postService.newPost(values);
         s_postId = newPost.data.id;
       } else {
-        await postService.updatePost(values, initialData.id);
+        if (!session) {
+          return 404;
+        }
+        await postService.updatePost(values, initialData.id, session);
 
         s_postId = initialData.id;
       }

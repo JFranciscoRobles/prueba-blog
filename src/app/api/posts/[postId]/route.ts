@@ -11,9 +11,17 @@ export async function GET(
       return new NextResponse("Post id is required", { status: 400 });
     }
 
-    const post = await db.post.findUnique({
+    const post = await db.post.findFirst({
       where: {
         id: params.postId,
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
 
@@ -29,10 +37,13 @@ export async function PATCH(
   { params }: { params: { postId: string } }
 ) {
   try {
+    const authId = req.headers.get("authorization");
+    
     const body = await req.json();
     const post = await db.post.update({
       where: {
         id: params.postId,
+        userId: authId || "",
       },
       data: body,
     });

@@ -1,20 +1,26 @@
 import PostForm from "@/components/post/PostForm";
-import { db } from "@/lib/server/db";
+import { auth } from "@/lib/auth";
+import { postService } from "@/lib/client/services/postService";
+import { Post } from "@prisma/client";
+import { notFound } from "next/navigation";
+
 import React from "react";
 
-type Props = {};
-
 const Page = async ({ params }: { params: { postId: string } }) => {
-  const post = await db.post.findFirst({
-    where: {
-      id: params.postId,
-    },
-  });
-
+  const session = await auth();
+  const post = await getData(params.postId);
   const title = post ? "Edit Post" : "New Post";
   const description = post
     ? "Edit the post data."
     : "Form to create a new post";
+
+  if (!post) {
+    return notFound();
+  }
+
+  if (post.userId !== session?.user.id) {
+    return notFound();
+  }
 
   return (
     <div className="flex flex-col my-8  space-y-8">
@@ -28,3 +34,8 @@ const Page = async ({ params }: { params: { postId: string } }) => {
 };
 
 export default Page;
+
+async function getData(postId: string): Promise<Post> {
+  const data = await postService.getPostById(postId);
+  return data.data;
+}
