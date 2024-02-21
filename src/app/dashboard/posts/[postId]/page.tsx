@@ -14,12 +14,10 @@ const Page = async ({ params }: { params: { postId: string } }) => {
     ? "Edit the post data."
     : "Form to create a new post";
 
-  if (!post) {
-    return notFound();
-  }
-
-  if (post.userId !== session?.user.id) {
-    return notFound();
+  if (post) {
+    if (post.userId !== session?.user.id) {
+      return notFound();
+    }
   }
 
   return (
