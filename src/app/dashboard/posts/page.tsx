@@ -1,12 +1,19 @@
 import PostsContainer from "@/components/post/PostsContainer";
 import { auth } from "@/lib/auth";
 import React from "react";
-import { PostWithAuthor } from "../../../../types/Post";
 import { postService } from "@/lib/client/services/postService";
+import PostSearch from "@/components/post/PostSearch";
+import PostPagination from "@/components/post/PostPagination";
 
-const Page = async () => {
+type Props = {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+};
+
+async function Page({ searchParams }: Props) {
   const session = await auth();
-  const posts: PostWithAuthor[] = await getData(session?.user.id || "");
+  const data = await getData(session?.user.id || "", searchParams);
 
   const title = "My Posts";
   const description = "Explore your collection of posts";
@@ -16,15 +23,16 @@ const Page = async () => {
         <h1 className="text-2xl font-bold text-center">{title}</h1>
         <h2 className="text-xl font-semibold text-center">{description}</h2>
       </div>
-      <PostsContainer data={posts} edit />
+      <PostSearch />
+      <PostsContainer data={data.data.data} edit />
+      <PostPagination data={data.data.paginationInfo} />
     </div>
   );
-};
+}
 
 export default Page;
 
-async function getData(userId: string): Promise<PostWithAuthor[]> {
-  const data = await postService.getPostByUser(userId);
-  const { data: posts } = data;
-  return posts.data;
+async function getData(userId: string, searchParams: any) {
+  const data = await postService.getPostByUser(userId, searchParams);
+  return data;
 }

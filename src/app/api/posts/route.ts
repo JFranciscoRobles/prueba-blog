@@ -1,13 +1,9 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/server/db";
 import { Prisma } from "@prisma/client";
+import { PageInfo } from "../../../../types/Post";
 
-export type PageInfo = {
-  totalItems: number;
-  itemsPerPage: number;
-  currentPage: number;
-  totalPages: number;
-};
+
 
 export async function POST(req: Request) {
   try {

@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { Button } from "../ui/button";
-import { PageInfo } from "@/app/api/posts/route";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { PageInfo } from "../../../types/Post";
 
 type Props = {
   data: PageInfo;
@@ -11,6 +11,7 @@ type Props = {
 
 const PostPagination = ({ data }: Props) => {
   const searchParams = useSearchParams();
+  const pathName = usePathname();
 
   const totalPages = Math.ceil(data.totalItems / data.itemsPerPage);
   const currentPage = Math.floor(data.currentPage / data.itemsPerPage) + 1;
@@ -22,7 +23,7 @@ const PostPagination = ({ data }: Props) => {
     const searchParamString = searchParams?.get("search")
       ? `search=${searchParams.get("search")}&`
       : "";
-    return `/posts/?${searchParamString}page=${
+    return `${pathName}/?${searchParamString}page=${
       (page - 1) * data.itemsPerPage
     }&limit=${data.itemsPerPage}`;
   };

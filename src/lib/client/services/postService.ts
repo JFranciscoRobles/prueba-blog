@@ -24,10 +24,11 @@ export async function getPostById(postId:string) {
   return result
 }
 
-export async function getPostByUser(userId:string) {
+export async function getPostByUser(userId:string, searchParams?: any, ) {
   const result = await api(`/api/posts/`, {
     method: "GET",
     params: {
+      ...searchParams,
       userId,
       Published: undefined,
     }
